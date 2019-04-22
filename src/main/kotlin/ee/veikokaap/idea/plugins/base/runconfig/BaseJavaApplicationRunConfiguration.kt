@@ -19,8 +19,7 @@ abstract class BaseJavaApplicationRunConfiguration<RUN_CONFIGURATION: BaseJavaAp
     project: Project, factory: ConfigurationFactory, name: String
 ) : LocatableConfigurationBase(project, factory, name),
     CommonJavaRunConfigurationParameters,
-    SearchScopeProvidingRunProfile,
-    RunProfileWithCompileBeforeLaunchOption {
+    ModuleRunProfile {
   
   private var environmentalVariables: MutableMap<String, String> = HashMap()
   private var configurationBean = BaseJavaApplicationRunConfigurationBean()
