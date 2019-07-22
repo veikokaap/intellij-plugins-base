@@ -17,7 +17,7 @@ import kotlin.collections.LinkedHashMap
 
 abstract class BaseJavaApplicationRunConfiguration<RUN_CONFIGURATION: BaseJavaApplicationRunConfiguration<RUN_CONFIGURATION>>(
     project: Project, factory: ConfigurationFactory, name: String
-) : LocatableConfigurationBase(project, factory, name),
+) : LocatableConfigurationBase<RUN_CONFIGURATION>(project, factory, name),
     CommonJavaRunConfigurationParameters,
     ModuleRunProfile {
   
@@ -30,14 +30,14 @@ abstract class BaseJavaApplicationRunConfiguration<RUN_CONFIGURATION: BaseJavaAp
   override fun getConfigurationEditor(): SettingsEditor<RUN_CONFIGURATION> {
     val group = SettingsEditorGroup<RUN_CONFIGURATION>()
     group.addEditor(ExecutionBundle.message("run.configuration.configuration.tab.title"), getMainSettingsEditor())
-    JavaRunConfigurationExtensionManager.getInstance().appendEditors(this, group)
+    JavaRunConfigurationExtensionManager.instance.appendEditors(this, group)
     group.addEditor(ExecutionBundle.message("logs.tab.title"), LogConfigurationPanel())
     return group
   }
   
   override fun readExternal(element: Element) {
     super.readExternal(element)
-    JavaRunConfigurationExtensionManager.getInstance().readExternal(this, element)
+    JavaRunConfigurationExtensionManager.instance.readExternal(this, element)
     XmlSerializer.deserializeInto(configurationBean, element)
     EnvironmentVariablesComponent.readExternal(element, environmentalVariables)
     configurationModule.readExternal(element)
@@ -45,7 +45,7 @@ abstract class BaseJavaApplicationRunConfiguration<RUN_CONFIGURATION: BaseJavaAp
   
   override fun writeExternal(element: Element) {
     super.writeExternal(element)
-    JavaRunConfigurationExtensionManager.getInstance().writeExternal(this, element)
+    JavaRunConfigurationExtensionManager.instance.writeExternal(this, element)
     XmlSerializer.serializeInto(configurationBean, element)
     EnvironmentVariablesComponent.writeExternal(element, environmentalVariables)
     if (configurationModule.module != null) {
