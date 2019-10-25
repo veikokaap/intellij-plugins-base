@@ -26,7 +26,7 @@ tasks.withType(KotlinCompile::class.java).all {
   targetCompatibility = javaVersion.name
   
   kotlinOptions {
-    jvmTarget = javaVersion.name
+    jvmTarget = javaVersion.toString()
     apiVersion = kotlinVersion
     languageVersion = kotlinVersion
   }
